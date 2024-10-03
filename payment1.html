@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Response Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .message {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            color: #5f259f;
+            background-color: #e7f7e7;
+            border: 1px solid #5f259f;
+        }
+
+        .failure {
+            color: #5f259f;
+            background-color: #f7e7e7;
+            border: 1px solid #5f259f;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .popup.success {
+            border-color: #5f259f;
+        }
+
+        .popup.failure {
+            border-color: #5f259f;
+        }
+
+        .popup img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .popup button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #5f259f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="response" class="message"></div>
+    <div id="popup" class="popup">
+        <img id="popup-logo" src="" alt="Logo">
+        <h2 id="popup-title"></h2>
+        <div id="popup-message"></div>
+        <button id="ok-button">OK</button>
+    </div>
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                status: params.get('status'),
+                errorCode: params.get('error_code'),
+                errorMessage: params.get('error_message')
+            };
+        }
+
+        function displayMessage() {
+            const params = getQueryParams();
+            const responseDiv = document.getElementById('response');
+            const popupDiv = document.getElementById('popup');
+            const popupLogo = document.getElementById('popup-logo');
+            const popupTitle = document.getElementById('popup-title');
+            const popupMessageDiv = document.getElementById('popup-message');
+            const okButton = document.getElementById('ok-button');
+
+            okButton.onclick = function () {
+                window.location.href = 'index.html';
+            };
+
+            if (params.status === 'success') {
+                popupDiv.classList.add('success');
+                popupLogo.src = 'images/phone-pay.png'; // Replace with the path to your success logo
+                popupTitle.textContent = 'Registration Successful';
+                // popupMessageDiv.textContent = 'Registration is successful. Please check your SMS for completing the application online. Thank you.';
+                popupDiv.style.display = 'block';
+            } else if (params.status === 'failure') {
+                // responseDiv.classList.add('failure');
+                // responseDiv.innerHTML = `Registration failed!<br>Error Code: ${params.errorCode}<br>Message: ${params.errorMessage}`;
+
+                popupDiv.classList.add('failure');
+                popupLogo.src = 'images/phone-pay.png'; // Replace with the path to your failure logo
+                popupTitle.textContent = 'Registration Failed';
+                // popupMessageDiv.textContent = 'Registration failed. Please try again later or contact support for assistance. We apologize for the inconvenience.';
+                popupDiv.style.display = 'block';
+            } else {
+                document.body.innerHTML = '<h1>404 - Page Not Found</h1>';
+                document.body.style.textAlign = 'center';
+                document.body.style.marginTop = '20%';
+                document.body.style.fontFamily = 'Arial, sans-serif';
+            }
+        }
+
+        window.onload = displayMessage;
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSPUCLA ID CARD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+    <style>
+        @media (max-width:767px) {
+
+
+            .container {
+                display: block !important;
+            }
+
+            .id-card {
+                height: unset !important;
+            }
+
+
+
+        }
+
+        .word {
+
+            white-space: nowrap;
+            /* Prevent the text from wrapping to the next line */
+            overflow: hidden;
+            /* Hide any text that overflows the container */
+            text-overflow: ellipsis;
+            /* Show '...' when the text overflows */
+            width: 200px;
+            /* Set a fixed width or use max-width to control the width */
+            display: block;
+            /* Ensure the element is a block-level element */
+        }
+
+        .error-message {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8d7da;
+            color: #721c24;
+            font-size: 18px;
+            /* Adjusted font size for better fit */
+            font-weight: 600;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            /* Adjust as needed */
+            max-height: 90%;
+            /* Adjust as needed */
+            margin: auto;
+            position: absolute;
+            /* Center the message in the container */
+            top: 50%;
+            /* Center vertically */
+            left: 50%;
+            /* Center horizontally */
+            transform: translate(-50%, -50%);
+            /* Adjust positioning */
+            overflow: auto;
+            /* Ensure content does not overflow */
+        }
+
+        .error-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #721c24;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .container {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: space-between;
+            font-family: "Poppins", sans-serif;
+            position: relative;
+        }
+
+        .id-card {
+            border: 3px solid #13488d;
+            border-radius: 5px;
+        }
+
+        .id-card,
+        #downloadButton {
+            /* display: none; */
+            /* Hide content initially */
+        }
+
+        .id-card {
+            position: relative;
+            height: 109vh;
+        }
+
+
+        .background-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .background-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            width: 330px;
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        .overlay img {
+            width: 71px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .overlay h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 17px;
+            margin: 0;
+        }
+
+        /* @media (max-width: 767px) {
+            .additional-image {
+                bottom: 394px !important;
+            }
+        } */
+
+        .additional-image {
+            position: absolute;
+            top: 17%;
+            /* Position 20% from the top of the parent container */
+            left: 50%;
+            transform: translateX(-50%);
+            height: 170px;
+            width: 170px;
+        }
+
+        @media (max-width:767px) {
+            .additional-image {
+                height: 130px !important;
+                width: 130px !important;
+            }
+        }
+
+        .additional-image img {
+            border-radius: 50%;
+        }
+
+        .m-info {
+            position: absolute;
+            bottom: 240px;
+            width: calc(100% - 20px);
+            max-height: 120px;
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        .m-info-group {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin: 1px 0px;
+            padding: 0px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-weight: normal;
+            margin: 0px;
+            color: #1c4f8c;
+            font-weight: 500;
+            font-size: 18px;
+        }
+
+        #profile_pic {
+            border-radius: 50%;
+            border: 10px solid #13488d;
+        }
+
+        #home-button,
+        #downloadButton {
+            background-color: blue;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            height: fit-content;
+        }
+
+        #home-button a {
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body style="visibility: hidden;">
+    <div class="container">
+        <button type="button" id="home-button">
+            <a href="index.html">Go to Home</a>
+        </button>
+        <div class="id-card">
+            <div class="background-image">
+                <img src="images/id-cardbg.png" alt="Background Image">
+                <!-- <div class="overlay">
+                    <img src="images/logo-nobg.png" alt="Logo Image">
+                    <h3>Karnataka State P.U College Lecture Association (R.)</h3>
+                </div> -->
+                <div class="additional-image">
+                    <img id="profile_pic" src="" alt="Profile Pic">
+                </div>
+            </div>
+            <div class="m-info" style="margin-top: 10px;">
+                <div>
+                    <div class="m-info-group">
+                        <h4 class="info-label">Name &nbsp;: &nbsp;</h4>
+                        <h4 class="info-value" id="name"></h4>
+                    </div>
+                    <div class="m-info-group">
+                        <h4 class="info-label">D.O.B &nbsp;: &nbsp;</h4>
+                        <h4 class="info-value" id="dob">&nbsp;</h4>
+                    </div>
+                    <div class="m-info-group">
+                        <h4 class="info-label">D.O.J &nbsp;: &nbsp;</h4>
+                        <h4 class="info-value" id="doj">&nbsp;</h4>
+                    </div>
+                    <div class="m-info-group">
+                        <h4 class="info-label">Blood Group &nbsp;: &nbsp;</h4>
+                        <h4 class="info-value" id="blood_group">&nbsp;</h4>
+                    </div>
+                    <div class="m-info-group">
+                        <h4 class="info-label">Contact No &nbsp;: &nbsp;</h4>
+                        <h4 class="info-value" id="contact_no">&nbsp; </h4>
+                    </div>
+                    <div class="m-info-group">
+                        <h4 class="info-label">Membership ID &nbsp;: &nbsp;</h4>
+                        <h4 class="info-value" id="membership_no">&nbsp;</h4>
+                    </div>
+                    <div class="m-info-group" style="display: flex;align-items: baseline;">
+                        <h4 class="info-label" style="white-space: nowrap;">College Name &nbsp;: &nbsp;</h4>
+                        <h4 class="info-value word" id="college_name">dysygds asudhsaud </h4>
+                    </div>
+                    <div class="m-info-group" style="align-items: baseline;">
+                        <h4 class="info-label" style="white-space: nowrap;">College Address&nbsp;: &nbsp;</h4>
+                        <h4 class="info-value word" id="clg_address">sdsdsds dsdsdds dfdss dfsff wdwddd</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="error-message" id="error-message">
+            <h2>Payment Unsuccessful.</h2>
+        </div>
+        <button type="button" id="downloadButton">
+            <span>Download as PDF&nbsp; </span> <br>
+            <img style="width: 15px;" src="images/downloads.png" alt="">
+        </button>
+    </div>
+
+    <script src="/js/mdbjs/server_conf.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const idCard = document.querySelector('.id-card');
+            const downloadButton = document.getElementById('downloadButton');
+            const errorMessage = document.getElementById('error-message');
+
+            // Initially hide the content
+            idCard.style.display = 'none';
+            downloadButton.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            // Function to format date as 'DD-MM-YYYY'
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}-${month}-${year}`;
+            }
+
+            let options = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    'content-type': 'application/json'
+                },
+            };
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            const transaction_id = params.get("transactionId");
+
+            fetch(serverAddress + "/paymentstatus?merchant_transaction_id=" + transaction_id, options)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        // Show the error message
+                        errorMessage.style.display = 'flex';
+                    } else {
+                        // Populate the ID card with data
+                        document.getElementById("name").innerHTML = data.full_name;
+                        document.getElementById("profile_pic").src = data.img_name;
+                        document.getElementById("dob").innerHTML = formatDate(data.date_of_birth);
+                        document.getElementById("doj").innerHTML = formatDate(data.joining_date);
+                        document.getElementById("blood_group").innerHTML = data.blood_grp;
+                        document.getElementById("contact_no").innerHTML = data.emp_contact;
+                        document.getElementById("membership_no").innerHTML = data.kgid_hrms;
+                        document.getElementById("clg_address").innerHTML = `${data.clg_street_name} ${data.clg_city} ${data.clg_taluk} ${data.clg_state} ${data.clg_country} - ${data.clg_zip_code}`;
+                        document.getElementById("college_name").innerHTML = data.clg_name;
+
+                        // Show the ID card and download button
+                        idCard.style.display = 'block';
+                        downloadButton.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    // Show the error message
+                    errorMessage.style.display = 'flex';
+                })
+                .finally(() => {
+                    // Ensure the loading indicator or any other initial hidden content is hidden
+                    document.body.style.visibility = 'visible';
+                });
+        });
+
+        document.getElementById('downloadButton').addEventListener('click', () => {
+            const element = document.querySelector('.id-card');
+
+            // Clone the element
+            const clone = element.cloneNode(true);
+
+            // Apply the new styles to the clone
+            clone.style.width = '50%';
+            clone.style.margin = '0 auto';
+
+            // Temporarily add the clone to the document body
+            document.body.appendChild(clone);
+
+            // Generate and save the PDF
+            html2pdf().from(clone).save('id-card.pdf').then(() => {
+                // Remove the clone after the PDF is generated
+                document.body.removeChild(clone);
+            });
+        });
+
+    </script>
+</body>
+
+</html>
