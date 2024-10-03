@@ -1,0 +1,5 @@
+.kspucla/
+__pycache__/
+migrations
+teachers_db.db
+uploads
